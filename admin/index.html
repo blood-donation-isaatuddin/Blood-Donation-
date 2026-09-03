@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#b91c1c" />
+  <title>IBDS — Admin Panel</title>
+  <link rel="stylesheet" href="../assets/css/admin.css" />
+</head>
+<body>
+
+  <!-- =========================
+       LOGIN SCREEN
+  ========================== -->
+  <section id="loginView" class="auth-view">
+    <div class="auth-card">
+      <div class="brand-mark" aria-hidden="true">🩸</div>
+      <p class="eyebrow">IBDS</p>
+      <h1>Admin Panel</h1>
+      <p class="auth-subtitle">ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি</p>
+
+      <form id="loginForm" class="form-stack">
+        <label>
+          <span>Email</span>
+          <input id="loginEmail" type="email" autocomplete="email" required placeholder="admin@example.com" />
+        </label>
+
+        <label>
+          <span>Password</span>
+          <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••" />
+        </label>
+
+        <button id="loginBtn" class="btn btn-primary btn-block" type="submit">
+          Login
+        </button>
+
+        <p id="loginMessage" class="message" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- =========================
+       APP / DASHBOARD
+  ========================== -->
+  <section id="appView" class="app-view hidden">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../index.html">
+          <span class="brand-mark small">🩸</span>
+          <span>
+            <strong>IBDS</strong>
+            <small>Admin Panel</small>
+          </span>
+        </a>
+
+        <button id="logoutBtn" class="btn btn-outline" type="button">
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="page-head">
+        <div>
+          <p class="eyebrow">Dashboard</p>
+          <h1>Donor Management</h1>
+          <p>রক্তদাতাদের তথ্য যোগ, পরিবর্তন এবং availability পরিচালনা করুন।</p>
+        </div>
+
+        <button id="addDonorBtn" class="btn btn-primary" type="button">
+          + Add Donor
+        </button>
+      </div>
+
+      <!-- Statistics -->
+      <section class="stats-grid" aria-label="Statistics">
+        <article class="stat-card">
+          <span class="stat-icon">👥</span>
+          <div>
+            <small>Total Donors</small>
+            <strong id="totalDonors">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon">🟢</span>
+          <div>
+            <small>Available</small>
+            <strong id="availableDonors">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon">🔴</span>
+          <div>
+            <small>Unavailable</small>
+            <strong id="unavailableDonors">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <span class="stat-icon">🩸</span>
+          <div>
+            <small>Total Donations</small>
+            <strong id="totalDonations">0</strong>
+          </div>
+        </article>
+      </section>
+
+      <!-- Donor management -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>Donors</h2>
+            <p id="donorCountLabel">0 donors</p>
+          </div>
+
+          <div class="toolbar">
+            <input id="donorSearch" type="search" placeholder="নাম / লোকেশন খুঁজুন..." />
+            <select id="bloodFilter" aria-label="Filter by blood group">
+              <option value="">সব Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+            <select id="statusFilter" aria-label="Filter by availability">
+              <option value="">সব Status</option>
+              <option value="available">Available</option>
+              <option value="unavailable">Unavailable</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="loadingState" class="state-box">
+          <span class="spinner" aria-hidden="true"></span>
+          Donor data loading...
+        </div>
+
+        <div id="emptyState" class="state-box hidden">
+          <div class="empty-icon">🩸</div>
+          <strong>No donors found</strong>
+          <span>নতুন donor যোগ করতে “Add Donor” চাপুন।</span>
+        </div>
+
+        <div id="donorTableWrap" class="table-wrap hidden">
+          <table class="donor-table">
+            <thead>
+              <tr>
+                <th>Donor</th>
+                <th>Blood</th>
+                <th>Location</th>
+                <th>Donations</th>
+                <th>Status</th>
+                <th>Available From</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="donorTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <!-- =========================
+       ADD / EDIT DONOR MODAL
+  ========================== -->
+  <div id="donorModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">Donor</p>
+          <h2 id="modalTitle">Add Donor</h2>
+        </div>
+        <button id="closeModalBtn" class="icon-btn" type="button" aria-label="Close">✕</button>
+      </div>
+
+      <form id="donorForm" class="donor-form">
+        <input id="donorId" type="hidden" />
+
+        <div class="photo-section">
+          <div class="photo-preview" id="photoPreview">🩸</div>
+          <div class="photo-actions">
+            <label class="btn btn-outline upload-label">
+              Choose Photo
+              <input id="donorPhoto" type="file" accept="image/jpeg,image/png,image/webp" />
+            </label>
+            <small id="photoHint">JPG, PNG বা WEBP. সর্বোচ্চ 5MB.</small>
+            <div id="uploadStatus" class="upload-status"></div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label>
+            <span>Name *</span>
+            <input id="donorName" type="text" required maxlength="100" />
+          </label>
+
+          <label>
+            <span>Blood Group *</span>
+            <select id="donorBloodGroup" required>
+              <option value="">Select</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Phone *</span>
+            <input id="donorPhone" type="tel" required maxlength="20" placeholder="01XXXXXXXXX" />
+          </label>
+
+          <label>
+            <span>Location *</span>
+            <input id="donorLocation" type="text" required maxlength="120" placeholder="জেলা / উপজেলা / এলাকা" />
+          </label>
+
+          <label>
+            <span>Total Donate</span>
+            <input id="donorTotalDonate" type="number" min="0" step="1" value="0" required />
+          </label>
+
+          <label>
+            <span>Initial Status</span>
+            <select id="donorAvailability">
+              <option value="true">Available</option>
+              <option value="false">Unavailable</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="unavailableFields" class="availability-box hidden">
+          <div class="form-grid">
+            <label>
+              <span>Last Donation Date</span>
+              <input id="lastDonationDate" type="date" />
+            </label>
+
+            <label>
+              <span>Available From</span>
+              <input id="availableFrom" type="date" />
+            </label>
+          </div>
+          <p class="form-help">Disable করলে system 3 calendar months পরে available date হিসাব করবে।</p>
+        </div>
+
+        <p id="formMessage" class="message" role="alert"></p>
+
+        <div class="modal-actions">
+          <button id="cancelModalBtn" class="btn btn-outline" type="button">Cancel</button>
+          <button id="saveDonorBtn" class="btn btn-primary" type="submit">
+            Save Donor
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirm delete / status modal -->
+  <div id="confirmModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-card confirm-card">
+      <div class="confirm-icon" id="confirmIcon">⚠️</div>
+      <h2 id="confirmTitle">Confirm</h2>
+      <p id="confirmText"></p>
+
+      <div class="modal-actions">
+        <button id="confirmCancelBtn" class="btn btn-outline" type="button">Cancel</button>
+        <button id="confirmOkBtn" class="btn btn-primary" type="button">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script type="module" src="../assets/js/admin.js"></script>
+</body>
+</html>
