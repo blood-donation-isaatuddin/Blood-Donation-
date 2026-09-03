@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#bd1f25">
+  <meta name="description" content="ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি (IBDS) — স্বেচ্ছায় রক্তদাতা খুঁজে পেতে সহায়তা।">
+  <title>IBDS — ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি</title>
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="brand" href="#home">
+      <img class="brand-logo" src="assets/images/logo.png" alt="IBDS Logo">
+      <span><strong>IBDS</strong><small>ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি</small></span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#home">হোম</a>
+      <a href="#donors">রক্তদাতা</a>
+      <a href="#about">আমাদের সম্পর্কে</a>
+      <a href="#myths">রক্তদান সম্পর্কে</a>
+      <a href="#contact">যোগাযোগ</a>
+    </nav>
+    <button id="menuBtn" class="menu-btn" type="button" aria-label="Menu" aria-expanded="false">☰</button>
+  </div>
+  <nav id="mobileNav" class="mobile-nav container" hidden aria-label="Mobile navigation">
+    <a href="#home">হোম</a>
+    <a href="#donors">রক্তদাতা</a>
+    <a href="#about">আমাদের সম্পর্কে</a>
+    <a href="#myths">রক্তদান সম্পর্কে</a>
+    <a href="#contact">যোগাযোগ</a>
+  </nav>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">🩸 স্বেচ্ছায় রক্তদানে এগিয়ে আসুন</span>
+        <h1>এক ব্যাগ রক্ত,<br><span>একটি জীবন</span></h1>
+        <p>ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি (IBDS) রক্তদাতাদের একটি স্বেচ্ছাসেবী নেটওয়ার্কের মাধ্যমে জরুরি সময়ে মানুষের পাশে দাঁড়াতে কাজ করে।</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#donors">🩸 রক্তদাতা খুঁজুন</a>
+          <a class="btn btn-light" href="#contact">IBDS-এর সাথে যোগাযোগ</a>
+        </div>
+        <div class="hero-note"><span>✓</span> জেলা পর্যায়ে সেবা · জরুরি প্রয়োজনে জেলার বাইরেও সহায়তার চেষ্টা</div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="blood-drop-art">🩸</div>
+        <div class="floating-note note-left">❤️ মানবতার সেবা</div>
+        <div class="floating-note note-right">🩸 স্বেচ্ছায় রক্তদান</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section" aria-label="IBDS statistics">
+    <div class="container stats-grid">
+      <article class="stat-card"><div class="stat-icon">👥</div><div><span>নিবন্ধিত রক্তদাতা</span><strong id="statDonors">0</strong></div></article>
+      <article class="stat-card"><div class="stat-icon">🟢</div><div><span>বর্তমানে Available</span><strong id="statAvailable">0</strong></div></article>
+      <article class="stat-card"><div class="stat-icon">🩸</div><div><span>মোট রক্তদান</span><strong id="statDonations">0</strong></div></article>
+    </div>
+  </section>
+
+  <section class="section" id="donors">
+    <div class="container">
+      <div class="section-heading">
+        <div><span class="section-kicker">🩸 রক্তদাতা</span><h2>প্রয়োজনের সময় রক্তদাতা খুঁজুন</h2></div>
+        <p>রক্তের গ্রুপ ও এলাকার ভিত্তিতে donor খুঁজে নিয়ে সরাসরি ফোনে যোগাযোগ করতে পারবেন।</p>
+      </div>
+
+      <div class="search-panel">
+        <label class="field"><span>Blood Group</span>
+          <select id="bloodFilter">
+            <option value="">সব গ্রুপ</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+          </select>
+        </label>
+        <label class="field"><span>এলাকা / নাম</span><input id="locationSearch" type="search" placeholder="জেলা, উপজেলা বা নাম লিখুন..."></label>
+      </div>
+
+      <!-- Public site intentionally renders only currently-available donors. -->
+      <div id="donorGrid" class="donor-grid"></div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="about">
+    <div class="container about-grid">
+      <div>
+        <span class="section-kicker">❤️ ঈশাআতুদ্দীন</span>
+        <h2>অরাজনৈতিক, অলাভজনক ও স্বেচ্ছাসেবী সংগঠন</h2>
+        <p>ঈশাআতুদ্দীন একটি <strong>অরাজনৈতিক, অলাভজনক ও স্বেচ্ছাসেবী সংঘটন</strong>। মানবতার সেবায় স্বেচ্ছায় রক্তদানকে উৎসাহিত করা এবং প্রয়োজনে রক্তদাতাদের সহজে খুঁজে পাওয়ার সুযোগ তৈরি করা আমাদের অন্যতম লক্ষ্য।</p>
+        <div class="founded"><span>স্থাপিত</span><strong>১৭/১১/২০২৩</strong></div>
+      </div>
+      <div class="about-card">
+        <div class="about-logo"><img src="assets/images/logo.png" alt="ঈশাআতুদ্দীন লোগো"></div>
+        <h3>IBDS</h3><p>স্বেচ্ছায় রক্তদান · মানবতার সেবা</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section myths" id="myths">
+    <div class="container">
+      <div class="section-heading"><div><span class="section-kicker">🩸 রক্তদান সম্পর্কে</span><h2>প্রচলিত ভ্রান্ত ধারণা ও বাস্তবতা</h2></div><p>ভয় বা ভুল তথ্য নয়—রক্তদানের আগে সঠিক তথ্য জানুন।</p></div>
+      <div class="faq-grid">
+        <details><summary>❓ রক্তদান করলে কি শরীরের ক্ষতি হয়?</summary><p>সুস্থ ও যোগ্য ব্যক্তি উপযুক্ত screening-এর পর রক্তদান করলে সাধারণত রক্তদান নিরাপদ। তবে সাময়িক মাথা ঘোরা, দুর্বল লাগা বা অস্বস্তি হতে পারে।</p></details>
+        <details><summary>❓ রক্ত দিলে কি শরীরের সব রক্ত কমে যায়?</summary><p>না। রক্তদানের পর শরীর হারানো তরল ও রক্তকণিকা পুনরায় তৈরি করতে শুরু করে। পুনরুদ্ধারের সময় ব্যক্তি ও স্বাস্থ্য অবস্থার ওপর নির্ভর করতে পারে।</p></details>
+        <details><summary>❓ বারবার রক্তদান করলে কি আয়রন কমে যেতে পারে?</summary><p>হ্যাঁ। বিশেষ করে ঘন ঘন রক্তদান করলে শরীর থেকে আয়রন কমে যেতে পারে। তাই নির্ধারিত donation interval ও donor screening মেনে চলা গুরুত্বপূর্ণ।</p></details>
+        <details><summary>❓ সুঁইয়ের কারণে সংক্রমণ হওয়ার আশঙ্কা আছে?</summary><p>অনুমোদিত রক্তদান কেন্দ্রে নতুন ও sterile disposable needle ব্যবহার করা হয়। তাই নিরাপদ ও অনুমোদিত কেন্দ্রে রক্তদান করাই উচিত।</p></details>
+        <details><summary>❓ রক্তদান কি সবার জন্য উপযুক্ত?</summary><p>না। বয়স, ওজন, স্বাস্থ্য, hemoglobin, ওষুধ ও অন্যান্য কারণে eligibility আলাদা হতে পারে। রক্ত দেওয়ার আগে সংশ্লিষ্ট চিকিৎসাকেন্দ্রের screening ও নির্দেশনা অনুসরণ করুন।</p></details>
+        <details><summary>❓ রক্তদানের পর কী করা ভালো?</summary><p>কিছুক্ষণ বিশ্রাম নিন, পর্যাপ্ত তরল পান করুন এবং সেদিন ভারী পরিশ্রম এড়িয়ে চলুন। অসুস্থ বোধ করলে চিকিৎসা সহায়তা নিন।</p></details>
+      </div>
+      <p class="medical-note">এই অংশটি সাধারণ স্বাস্থ্যশিক্ষামূলক তথ্য। ব্যক্তিগত স্বাস্থ্য বা রক্তদানের যোগ্যতা সম্পর্কে চূড়ান্ত সিদ্ধান্ত সংশ্লিষ্ট চিকিৎসাকেন্দ্র/স্বাস্থ্যকর্মীর পরামর্শ অনুযায়ী নিন।</p>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container contact-box">
+      <div class="contact-copy"><span class="section-kicker">📞 যোগাযোগ</span><h2>ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি</h2><p>সংগঠনের কার্যক্রম ও জরুরি যোগাযোগের জন্য নিচের মাধ্যমগুলো ব্যবহার করুন।</p></div>
+      <div class="contact-grid">
+        <a class="contact-action phone-action" href="tel:+8801792527019"><span class="contact-action-icon">📞</span><span><small>ফোনে যোগাযোগ</small><strong>কল করুন</strong></span></a>
+        <a class="contact-action" href="mailto:ishaatuddinhemnagar@gmail.com"><span class="contact-action-icon">✉️</span><span><small>Email</small><strong>ইমেইল করুন</strong></span></a>
+        <a class="contact-action" href="https://www.facebook.com/share/1EH5aGgqvV/" target="_blank" rel="noopener noreferrer"><span class="contact-action-icon">ⓕ</span><span><small>Facebook</small><strong>Facebook Page</strong></span></a>
+      </div>
+      <div class="contact-meta"><span><strong>স্থাপিত:</strong> ১৭/১১/২০২৩</span><span><strong>সংগঠনের ধরন:</strong> অরাজনৈতিক · অলাভজনক · স্বেচ্ছাসেবী</span></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-wrap">
+    <div><div class="footer-brand"><img src="assets/images/logo.png" alt="IBDS logo"><strong>IBDS</strong></div><p>ঈশাআতুদ্দীন ব্লাড ডোনার সোসাইটি</p></div>
+    <p class="developer-credit">Developed by - <strong>Md Tawhid Ahmed</strong></p>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
